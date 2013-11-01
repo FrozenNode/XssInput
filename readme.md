@@ -63,4 +63,4 @@ Or pass in `true` to the `all()` method:
 Input::all(true);
 ```
 
-If you have global filtering on, you can pass `false` in as these parameters to turn off filtering for that particular callto either method.
+If you have global filtering on, you can pass `false` in as these parameters to turn off filtering for that particular call to either method.
