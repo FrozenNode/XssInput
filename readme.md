@@ -36,3 +36,31 @@ To install XssInput as a Composer package to be used with Laravel 4, simply add 
 You could also, instead of doing this, give the XssInput facade a separate alias.
 
 Then publish the config file with `php artisan config:publish frozennode/xssinput`. This will add the file `app/config/packages/frozennode/xssinput/xssinput.php`, which you should look at and understand because it's one option long.
+
+## Usage
+
+It really is screamingly simple. If you've set the global xss filtering to `true`, then you can continue using the Input facade as you normally would:
+
+```php
+Input::get('some_var');
+```
+
+The same goes for getting all inputs:
+
+```php
+Input::all();
+```
+
+However, if you don't have global xss filtering on, you can pass in a third parameter to the `get()` method:
+
+```php
+Input::get('some_var', null, true);
+```
+
+Or pass in `true` to the `all()` method:
+
+```php
+Input::all(true);
+```
+
+If you have global filtering on, you can pass `false` in as these parameters to turn off filtering for that particular callto either method.
