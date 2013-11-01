@@ -2,7 +2,7 @@
 
 XssInput is a screamingly simple extension of Laravel's Input facade that somewhat mimics the XSS filtering of CodeIgniter's input library. In fact, underneath the hood, this package uses an altered form of CodeIgniter's Security library to filter inputs for XSS.
 
-XSS filtering happens in one of two ways: by setting the `` option in this package's config to `true`, or by passing true as the third option to `Input::get()` or as the only option for `Input::all()`.
+XSS filtering happens in one of two ways: by setting the `xss_filter_all_inputs` option in this package's config to `true`, or by passing true as the third option to `Input::get()` or as the only option for `Input::all()`.
 
 
 - **Author:** Jan Hartigan
