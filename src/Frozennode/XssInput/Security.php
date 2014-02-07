@@ -78,9 +78,7 @@ class Security {
 		$str = preg_replace_callback("/[a-z]+=([\'\"]).*?\\1/si", function($match){
 					return str_replace(array('>', '<', '\\'), array('&gt;', '&lt;', '\\\\'), $match[0]);
 			   }, $str);
-		$str = preg_replace_callback("/<\w+.*?(?=>|<|$)/si", function($match){
-					return self::entity_decode($match[0], 'UTF-8');
-				}, $str);
+		$str = preg_replace_callback("/<\w+.*?(?=>|<|$)/si", 'self::entity_decode' , $str);
 		/*
 		 * Remove Invisible Characters Again!
 		 */
@@ -415,8 +413,9 @@ class Security {
 	 * @param	string
 	 * @return	string
 	 */
-	protected static function entity_decode($str, $charset='UTF-8')
+	public static function entity_decode($arr, $charset='UTF-8')
 	{
+		$str = $arr[0];
 		if (stristr($str, '&') === FALSE)
 		{
 			return $str;
