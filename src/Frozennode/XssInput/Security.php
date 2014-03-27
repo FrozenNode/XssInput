@@ -153,15 +153,17 @@ class Security {
 		do
 		{
 			$original = $str;
+			$class = __CLASS__;
+			
 			if (preg_match("/<a/i", $str))
 			{
-				$str = preg_replace_callback("#<a\s+([^>]*?)(>|$)#si", function($match){
+				$str = preg_replace_callback("#<a\s+([^>]*?)(>|$)#si", function($match) use ($class) {
 							return str_replace(
 												$match[1],
 												preg_replace(
 													'#href=.*?(alert\(|alert&\#40;|javascript\:|livescript\:|mocha\:|charset\=|window\.|document\.|\.cookie|<script|<xss|data\s*:)#si',
 													'',
-													self::filter_attributes(str_replace(array('<', '>'), '', $match[1]))
+													$class::filter_attributes(str_replace(array('<', '>'), '', $match[1]))
 												),
 												$match[0]
 											  );
@@ -169,13 +171,13 @@ class Security {
 			}
 			if (preg_match("/<img/i", $str))
 			{
-				$str = preg_replace_callback("#<img\s+([^>]*?)(\s?/?>|$)#si", function($match){
+				$str = preg_replace_callback("#<img\s+([^>]*?)(\s?/?>|$)#si", function($match) use ($class) {
 							return str_replace(
 												$match[1],
 												preg_replace(
 													'#src=.*?(alert\(|alert&\#40;|javascript\:|livescript\:|mocha\:|charset\=|window\.|document\.|\.cookie|<script|<xss|base64\s*,)#si',
 													'',
-													self::filter_attributes(str_replace(array('<', '>'), '', $match[1]))
+													$class::filter_attributes(str_replace(array('<', '>'), '', $match[1]))
 												),
 												$match[0]
 											);
@@ -432,7 +434,7 @@ class Security {
 	 * @param	string
 	 * @return	string
 	 */
-	protected static function filter_attributes($str)
+	public static function filter_attributes($str)
 	{
 		$out = '';
 		if (preg_match_all('#\s*[a-z\-]+\s*=\s*(\042|\047)([^\\1]*?)\\1#is', $str, $matches))
