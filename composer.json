@@ -8,10 +8,18 @@
             "name": "Jan Hartigan",
             "email": "jan@frozennode.com"
         }
+        ,
+        {
+            "name": "Everett Griffiths",
+            "email": "everett@craftsmancoding.com"
+        }
     ],
     "require": {
         "php": ">=5.3.0",
-        "illuminate/support": "~4"
+        "illuminate/support": "~5"
+    },
+    "require-dev": {
+        "mockery/mockery": "0.9.*@dev"
     },
     "autoload": {
         "psr-0": {
