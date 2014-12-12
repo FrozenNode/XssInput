@@ -9,6 +9,7 @@ class XssInput extends \Illuminate\Support\Facades\Input {
 	 *
 	 * @param  string $key
 	 * @param  mixed  $default
+	 * @param  mixed $cleanse true = filter, false = don't filter, null = defer to config
 	 * @return mixed
 	 */
 	public static function get($key = null, $default = null, $cleanse = null)
@@ -45,6 +46,39 @@ class XssInput extends \Illuminate\Support\Facades\Input {
 		}
 
 		return $all;
+	}
+
+	/**
+	 * Test whether any malicious content was passed as input
+	 *
+	 * @param null $key
+	 *
+	 * @return string
+	 */
+	public static function hasXss($key = null)
+	{
+		if ($key)
+		{
+			if (!$raw_value = static::$app['request']->input($key, null)){
+				return false; // no input means no XSS!
+			}
+			$filtered_value = Security::xss_clean($raw_value);
+			if ($filtered_value != $raw_value){
+				return true;
+			}
+
+			return false;
+		}
+
+		$all = static::$app['request']->all();
+		foreach ($all as $raw_value)
+		{
+			$filtered_value = Security::xss_clean($raw_value);
+			if ($filtered_value != $raw_value){
+				return true; // quit at first problem
+			}
+		}
+		return false;
 	}
 
 }

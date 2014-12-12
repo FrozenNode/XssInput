@@ -7,17 +7,29 @@ XSS filtering happens in one of two ways: by setting the `xss_filter_all_inputs`
 
 - **Author:** Jan Hartigan
 - **Website:** [http://frozennode.com](http://frozennode.com)
-- **Version:** 1.0.0
+- **Version:** 1.1.0
+
+## Version
+
+Version 1.1.0 is compatible with Laravel 5.  If you are using Laravel 4, please use version 1.0.0.
 
 ## Composer
 
 To install XssInput as a Composer package to be used with Laravel 4, simply add this to your composer.json:
 
 ```json
-"frozennode/xssinput": "dev-master"
+"frozennode/xssinput": "1.0.*"
 ```
 
-..and run `composer update`. Once it's installed, you can register the service provider in `app/config/app.php` in the `providers` array:
+For installation on Laravel 5, you can specify version 1.1.0 or later, or default to the dev-master:
+
+```json
+"frozennode/xssinput": "1.1.*"
+```
+
+
+
+Then run `composer update`. Once it's installed, you can register the service provider in `app/config/app.php` in the `providers` array:
 
 ```php
 'providers' => array(
@@ -64,3 +76,33 @@ Input::all(true);
 ```
 
 If you have global filtering on, you can pass `false` in as these parameters to turn off filtering for that particular call to either method.
+
+## Additional Functions
+
+### hasXSS
+
+```
+bool Input::hasXss ( [string $key = null])
+```
+
+Version 1.1.0 adds a an `hasXss()` function, which is useful for testing whether a given input has potentially malicious content.
+This could be used to adapt application-level firewall rules or perform custom logging/reporting.
+
+
+```php
+if (Input::hasXss('some_var'))
+{
+   // hmm... Input::get('some_var') looks fishy 
+{
+```
+
+By omitting the `$key` parameter, you check all inputs:
+
+```php
+if (Input::hasXss())
+{
+   // hmm... something in Input::all() looks fishy 
+{
+```
+
+Note: when `hasXSS` returns true, this is not a guarantee that the input data was malicious: it merely indicates that the input was filtered.  If the data had been entirely "safe", it would not have been filtered. 
