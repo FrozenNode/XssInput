@@ -21,6 +21,14 @@ To install XssInput as a Composer package to be used with Laravel 4, simply add 
 "frozennode/xssinput": "1.0.*"
 ```
 
+For installation on Laravel 5, you can specify version 1.1.0 or later, or default to the dev-master:
+
+```json
+"frozennode/xssinput": "1.1.*"
+```
+
+
+
 Then run `composer update`. Once it's installed, you can register the service provider in `app/config/app.php` in the `providers` array:
 
 ```php
